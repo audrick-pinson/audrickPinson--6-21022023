@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 // Handling routes
 const saucesRoutes = require("./routes/sauces");
 const usersRoutes = require("./routes/users");
-//app.use("/api/sauces", saucesRoutes);
+app.use("/api/sauces", saucesRoutes);
 app.use("/api/auth", usersRoutes);
 app.use("/images", express.static(path.join(__dirname, "images")));
 
