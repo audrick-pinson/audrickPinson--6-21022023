@@ -88,22 +88,32 @@ exports.likeDislikeSauce = (req, res, next) => {
 		// Chercher et supprimer le req.auth.userId usersDisliked
 		// Mettre à jour les compteurs likes et dislikes
 
-		if(sauce.usersLiked.includes(req.sauce.userId) && req.sauce.likes === 1)
-			 userliked.updateOne(g
-    { $inc: { dislikes: +1 } },
-    { $push: {usersLiked: req.auth.userId} },)
+		if( req.body.like === 1){
+			 usersLiked.updateOne({_id: req.params.id},
+    { $inc: { likes: +1 },$push: {usersLiked: req.auth.userId} },
+     ) 
+			 usersLiked.save(function(err){
+                                if(err){
+                                  res.send(err);
+                                }
+			};
 
-		if(sauce.usersDisliked.includes(req.sauce.userId) && req.sauce.dislikes === -1)
-			userDisliked.updateOne(
-    { $inc: { dislikes: -1 } },
-    { $push: {usersDisliked: req.auth.userId} },)
+		if( req.body.dislikes === -1){
+			userDisliked.updateOne({_id: req.params.id},
+	{ $inc: { likes: -1 },$push: {usersDisliked: req.auth.userId} },
+     ) 
+			userDisliked.save(function(err){
+                                if(err){
+                                  res.send(err);
+                                }
+			};
 
 
 
 
 		// Mettre à jour les compteurs likes et dislikes
-		Sauce.udapteOne({ _id: req.params.id},
-			.then(() => res.status(200).json({message : 'Mise à jour du compteur!'}))
+		Sauce.udapteOne({ _id: req.params.id}),
+			.then(() => res.status(200).json({message : 'Mise à jour du compteur!'}));
 			.catch(error => res.status(401).json({ error }));
 	})
 
@@ -113,4 +123,4 @@ exports.likeDislikeSauce = (req, res, next) => {
 	
 
 
-};
+})};
