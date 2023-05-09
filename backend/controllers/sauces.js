@@ -92,9 +92,9 @@ exports.likeDislikeSauce = (req, res, next) => {
 			 usersLiked.updateOne({_id: req.params.id},
     { $inc: { likes: +1 },$push: {usersLiked: req.auth.userId} },
      ) 
-			 usersLiked.save(function(err){
-                                if(err){
-                                  res.send(err);
+			 usersLiked.save()
+        .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+        .catch(error => res.status(400).json({ error }));
                                 }
 			};
 
@@ -102,9 +102,9 @@ exports.likeDislikeSauce = (req, res, next) => {
 			userDisliked.updateOne({_id: req.params.id},
 	{ $inc: { likes: -1 },$push: {usersDisliked: req.auth.userId} },
      ) 
-			userDisliked.save(function(err){
-                                if(err){
-                                  res.send(err);
+			userDisliked.save()
+        .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+        .catch(error => res.status(400).json({ error }));
                                 }
 			};
 
